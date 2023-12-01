@@ -29,7 +29,7 @@ func main() {
 	for scanner2.Scan() {
 		//fmt.Println(string(scanner2.Bytes()))
 		sum = sum + mySum(string(scanner2.Bytes()),2)
-		//fmt.Println(sum)
+		fmt.Println(sum)
 	}
 	fmt.Println("Version 2 is:",sum)
 }
@@ -45,8 +45,7 @@ func mySum (s string ,version int) int {
 	a := string(s[first])
 	b := string(s[last])
 	if (version == 2 ) {
-		firstv2, firstv2Val:= findPrintedNumber(s)
-		lastv2, lastv2Val := findPrintedNumber(s)
+		firstv2, firstv2Val, lastv2, lastv2Val := findPrintedNumber(s)
 		if (firstv2<first) {
 			a = strconv.Itoa(firstv2Val)
 		}
@@ -61,21 +60,26 @@ func mySum (s string ,version int) int {
 	return AB
 }
 
-//TODO Return first and last
-func findPrintedNumber (s string) (int, int) {
+func findPrintedNumber (s string) (int, int, int, int) {
 	numbers := []string{"one","two","three","four","five","six","seven","eight","nine","zero"}
 	numbersVal := []int{1,2,3,4,5,6,7,8,9,0}
-	position := -1
-	value := -1
+	firstPos, lastPos := -1, -1
+	firstVal, lastVal := -1, -1
 
 	for i, element := range numbers {
 		if (strings.Contains(s,element)) {
-			var elementPos int = strings.Index(s,element)
-			if (position == -1 || elementPos < position) {
-				position = elementPos
-				value = numbersVal[i]
+			var elementFirstPos int = strings.Index(s,element)
+			if (firstPos == -1 || elementFirstPos < firstPos) {
+				firstPos = elementFirstPos
+				firstVal = numbersVal[i]
+			}
+
+			var elementLastPos int = strings.LastIndex(s,element)
+			if (lastPos == -1 || elementLastPos > lastPos) {
+				lastPos = elementLastPos
+				lastVal = numbersVal[i]
 			}
 		}
 	}
-	return position , value
+	return firstPos, firstVal, lastPos, lastVal
 }
