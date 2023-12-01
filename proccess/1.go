@@ -29,7 +29,7 @@ func main() {
 	for scanner2.Scan() {
 		//fmt.Println(string(scanner2.Bytes()))
 		sum = sum + mySum(string(scanner2.Bytes()),2)
-		fmt.Println(sum)
+		//fmt.Println(sum)
 	}
 	fmt.Println("Version 2 is:",sum)
 }
@@ -46,14 +46,14 @@ func mySum (s string ,version int) int {
 	b := string(s[last])
 	if (version == 2 ) {
 		firstv2, firstv2Val, lastv2, lastv2Val := findPrintedNumber(s)
-		if (firstv2<first) {
+		if (firstv2!=-1 && firstv2<first) {
 			a = strconv.Itoa(firstv2Val)
 		}
-		if (lastv2>last) {
+		if (lastv2!=-1 && lastv2>last) {
 			b = strconv.Itoa(lastv2Val)
 		}
+		//fmt.Println("F:",first,"L:",last,"F2:",firstv2,"L2:",lastv2,"String:",s,"A:",a,"B:",b)
 	}
-	//fmt.Println("F:",first,"L:",last)
 	ab := strings.Join([]string{a,b},"")
 	AB, _ := strconv.Atoi(ab) 
 	//fmt.Println("AB is ",AB)
@@ -61,8 +61,8 @@ func mySum (s string ,version int) int {
 }
 
 func findPrintedNumber (s string) (int, int, int, int) {
-	numbers := []string{"one","two","three","four","five","six","seven","eight","nine","zero"}
-	numbersVal := []int{1,2,3,4,5,6,7,8,9,0}
+	numbers := []string{"one","two","three","four","five","six","seven","eight","nine"}
+	numbersVal := []int{1,2,3,4,5,6,7,8,9}
 	firstPos, lastPos := -1, -1
 	firstVal, lastVal := -1, -1
 
