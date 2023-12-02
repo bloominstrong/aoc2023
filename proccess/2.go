@@ -78,8 +78,8 @@ func mySum (s string ,version int) int {
 		gameValid = true
 	}
 	if (version == 2) {
-		//not implemented
-		return 0
+		cubePower := slices.Max(greens)*slices.Max(reds)*slices.Max(blues)
+		return cubePower
 	}
 	if (gameValid) {
 		return gameIndex
