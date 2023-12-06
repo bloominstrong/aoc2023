@@ -87,6 +87,9 @@ func mySum (prevLine string, currentLine string, nextLine string ,version int) i
 			if (startPos == -1){
 				startPos++
 			}
+			if (startPos != 0) && (endPos != 139) && (!unicode.IsPunct(rune(currentLine[startPos])) || !unicode.IsPunct(rune(currentLine[endPos]))) {
+				fmt.Println("PROBLEM LINES\n",prevLine,"\n",currentLine,"\n",nextLine)
+			}
 			//fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos,"End:",endPos)
 		PosLoop:
 			for i := startPos; i <= endPos; i++ {
@@ -117,7 +120,7 @@ func mySum (prevLine string, currentLine string, nextLine string ,version int) i
 				}
 			}
 			if (!found){
-				fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos,"End:",endPos)
+				//fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos,"End:",endPos)
 			}
 	}
 
