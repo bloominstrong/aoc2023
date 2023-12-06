@@ -57,16 +57,35 @@ func mySum (prevLine string, currentLine string, nextLine string ,version int) i
 	charList := "!@#$%^&*()-_=+ /,;:'[]{}|<>?`~"
 	currentNumbers := strings.FieldsFunc(currentLine, func(c rune) bool { return !unicode.IsNumber(c)})
 	found := false
-	for _, data := range currentNumbers {
+	numberOccurance := make([]int,len(currentNumbers),20)
+	for i, d1 := range currentNumbers {
+		for j, d2 := range currentNumbers {
+			if (i <= j) && (d1 == d2) {
+				numberOccurance[i]++
+			}
+		}
+	}
+	//fmt.Println("CN:",currentNumbers,"\nNO:",numberOccurance)
+	for j, data := range currentNumbers {
 			found = false
-			startPos := strings.Index(currentLine,data)-1
+			startPos := 0
+			if (numberOccurance[j]==2) {
+				firstPos := strings.Index(currentLine,data)
+				startPos = strings.Index(currentLine[j:],data) + firstPos
+				//fmt.Println("DUPLICATE")
+				//fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos)
+			} else if (numberOccurance[j] > 2) {
+				fmt.Println("TOO MANY DUPLICATES FOUND")
+			} else {
+				startPos = strings.Index(currentLine,data)-1
+			}
 			endPos := startPos+len(data)+1
+			
 			if (endPos == len(currentLine)) {
 				endPos--
 			}
 			if (startPos == -1){
 				startPos++
-				
 			}
 			//fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos,"End:",endPos)
 		PosLoop:
