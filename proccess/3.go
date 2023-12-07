@@ -69,26 +69,31 @@ func mySum (prevLine string, currentLine string, nextLine string ,version int) i
 	for j, data := range currentNumbers {
 			found = false
 			startPos := 0
-			if (numberOccurance[j]==2) {
-				firstPos := strings.Index(currentLine,data)
-				startPos = strings.Index(currentLine[j:],data) + firstPos
-				//fmt.Println("DUPLICATE")
-				//fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos)
-			} else if (numberOccurance[j] > 2) {
-				fmt.Println("TOO MANY DUPLICATES FOUND")
-			} else {
-				startPos = strings.Index(currentLine,data)-1
-			}
-			endPos := startPos+len(data)+1
+			endPos := 0
+			confirmPos := false
+			for (!confirmPos) {
+				if (numberOccurance[j]==2) {
+					firstPos := strings.Index(currentLine[endPos:],data) 
+					startPos = strings.Index(currentLine[firstPos:],data)-1 + firstPos
+					//fmt.Println("DUPLICATE")
+					//fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos)
+				} else if (numberOccurance[j] > 2) {
+					fmt.Println("TOO MANY DUPLICATES FOUND")
+				} else {
+					startPos = strings.Index(currentLine[endPos:],data)-1+endPos
+				}
+				endPos = startPos+len(data)+1
 			
-			if (endPos == len(currentLine)) {
-				endPos--
-			}
-			if (startPos == -1){
-				startPos++
-			}
-			if (startPos != 0) && (endPos != 139) && (!unicode.IsPunct(rune(currentLine[startPos])) || !unicode.IsPunct(rune(currentLine[endPos]))) {
-				fmt.Println("PROBLEM LINES\n",prevLine,"\n",currentLine,"\n",nextLine)
+				if (endPos == len(currentLine)) {
+					endPos--
+				}
+				if (startPos == -1){
+					startPos++
+				}
+				if (startPos == 0 && !unicode.IsNumber(rune(currentLine[endPos]))) || (endPos == 139 && !unicode.IsNumber(rune(currentLine[startPos]))) || (!unicode.IsNumber(rune(currentLine[startPos])) && !unicode.IsNumber(rune(currentLine[endPos]))) {
+					confirmPos = true
+				} else { fmt.Println("Data:",data,"S:",startPos,"E:",endPos,"\n",currentLine[startPos:endPos],string(currentLine[startPos]),"\n",currentLine)}
+				
 			}
 			//fmt.Println("Data:",data,"\nPL:",prevLine,"\nCL:",currentLine,"\nNL:",nextLine,"Start:",startPos,"End:",endPos)
 		PosLoop:
